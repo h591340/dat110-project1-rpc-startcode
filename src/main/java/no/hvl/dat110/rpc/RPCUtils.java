@@ -8,16 +8,22 @@ public class RPCUtils {
 	
 	public static byte[] encapsulate(byte rpcid, byte[] payload) {
 		
-		byte[] rpcmsg = null;
+		
+		
 		
 		// TODO - START
 		
 		// Encapsulate the rpcid and payload in a byte array according to the RPC message syntax / format
+		byte[] rpcmsg = new byte[payload.length+1];
 		
-		if (true)
-			throw new UnsupportedOperationException(TODO.method());
+		rpcmsg[0] = rpcid;
 		
-		// TODO - END
+		for(int i = 0; i<payload.length; i++) {
+			rpcmsg[i+1] = payload[i];
+		}
+			
+		
+		
 		
 		return rpcmsg;
 	}
@@ -29,9 +35,12 @@ public class RPCUtils {
 		// TODO - START
 		
 		// Decapsulate the rpcid and payload in a byte array according to the RPC message syntax
+		 payload = new byte[rpcmsg.length-1];
 		
-		if (true)
-			throw new UnsupportedOperationException(TODO.method());
+		for(int i = 0; i<rpcmsg.length-1; i++) {
+			payload[i] = rpcmsg[i+1];
+		}	
+		
 		
 		// TODO - END
 		
@@ -45,9 +54,9 @@ public class RPCUtils {
 		byte[] encoded = null;
 		
 		// TODO - START 
+		 encoded=str.getBytes();
 		
-		if (true)
-			throw new UnsupportedOperationException(TODO.method());
+		
 		
 		// TODO - END
 		
@@ -61,8 +70,7 @@ public class RPCUtils {
 		
 		// TODO - START 
 		
-		if (true)
-			throw new UnsupportedOperationException(TODO.method());
+		decoded = new String(data); 
 		
 		// TODO - END
 		
@@ -73,10 +81,11 @@ public class RPCUtils {
 		
 		byte[] encoded = null;
 		
+		
 		// TODO - START 
 		
-		if (true)
-			throw new UnsupportedOperationException(TODO.method());
+	
+		
 				
 		// TODO - END
 		
@@ -88,8 +97,6 @@ public class RPCUtils {
 		
 		// TODO
 		
-		if (true)
-			throw new UnsupportedOperationException(TODO.method());
 		
 	}
 
@@ -121,9 +128,10 @@ public class RPCUtils {
 		byte[] encoded = null;
 		
 		// TODO - START 
+		encoded = ByteBuffer.allocate(4).putInt(x).array();
+
 		
-		if (true)
-			throw new UnsupportedOperationException(TODO.method());
+		
 		
 		// TODO - END
 		
@@ -136,10 +144,9 @@ public class RPCUtils {
 		int decoded = 0;
 		
 		// TODO - START 
+		decoded=ByteBuffer.wrap(data).getInt();
 		
-		if (true)
-			throw new UnsupportedOperationException(TODO.method());
-		
+	
 		// TODO - END
 		
 		return decoded;
