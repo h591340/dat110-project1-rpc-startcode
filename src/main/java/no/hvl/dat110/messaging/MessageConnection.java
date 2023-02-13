@@ -38,6 +38,20 @@ public class MessageConnection {
 		
 		// TODO - START
 		// encapsulate the data contained in the Message and write to the output stream
+		try {				
+			
+			data = message.getData();
+			outStream.write(data);
+			
+			outStream.close();
+			
+			socket.close();
+					
+		} catch (IOException ex){
+			System.out.println("TCP clint: " + ex.getMessage());
+			ex.printStackTrace();
+			System.exit(1);
+		}
 		
 		if (true)
 			throw new UnsupportedOperationException(TODO.method());
@@ -53,6 +67,36 @@ public class MessageConnection {
 		
 		// TODO - START
 		// read a segment from the input stream and decapsulate data into a Message
+		int length;
+		try {
+			length = inStream.readInt();
+			data =new byte[length];
+			System.out.print("TCP Receiver starting");
+			
+		    System.out.println("TCP Receiver reading");
+		    inStream.read(data);
+		    
+		    System.out.print("TCP Receiver received: ");
+		    for (byte b : data) {
+		    	System.out.print((byte) b);
+		    }
+		    
+			
+		    System.out.println();
+		    
+		    inStream.close();
+		    
+		    socket.close();
+		} catch (IOException ex) {
+			// TODO Auto-generated catch block
+			System.out.println("TCPServer: " + ex.getMessage());
+			ex.printStackTrace();
+			System.exit(1);
+			
+
+		}
+		System.out.println("TCP Receiver stopping");
+		
 		
 		if (true)
 			throw new UnsupportedOperationException(TODO.method());
