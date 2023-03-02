@@ -14,16 +14,17 @@ public class RPCUtils {
 		// TODO - START
 		
 		// Encapsulate the rpcid and payload in a byte array according to the RPC message syntax / format
-		byte[] rpcmsg = new byte[payload.length+1];
-		
-		rpcmsg[0] = rpcid;
-		
-		for(int i = 0; i<payload.length; i++) {
-			rpcmsg[i+1] = payload[i];
+		byte[] rpcmsg;
+		if (payload == null) {
+			rpcmsg = new byte[1];
+			rpcmsg[0] = rpcid;
+		} else {
+			rpcmsg = new byte[payload.length+1];
+			rpcmsg[0] = rpcid;
+			for (int i = 0; i < payload.length; i++) {
+				rpcmsg[i+1] = payload[i];
+			}
 		}
-			
-		
-		
 		
 		return rpcmsg;
 	}
@@ -35,16 +36,25 @@ public class RPCUtils {
 		// TODO - START
 		
 		// Decapsulate the rpcid and payload in a byte array according to the RPC message syntax
-		 payload = new byte[rpcmsg.length-1];
+		if (rpcmsg.length >= 1) {
+			 payload = new byte[rpcmsg.length-1];
 		
-		for(int i = 0; i<rpcmsg.length-1; i++) {
-			payload[i] = rpcmsg[i+1];
-		}	
-		
+			for(int i = 0; i<rpcmsg.length-1; i++) {
+				payload[i] = rpcmsg[i+1];
+			}
+		} else {
+			return null;
+			// throw an exception or return null to indicate that the rpcmsg array is invalid
+		}
 		
 		// TODO - END
 		
 		return payload;
+		
+		
+		// TODO - END
+		
+		
 		
 	}
 
@@ -84,7 +94,7 @@ public class RPCUtils {
 		
 		// TODO - START 
 		
-	
+		encoded=new byte[0];
 		
 				
 		// TODO - END
@@ -96,6 +106,7 @@ public class RPCUtils {
 	public static void unmarshallVoid(byte[] data) {
 		
 		// TODO
+		
 		
 		
 	}
