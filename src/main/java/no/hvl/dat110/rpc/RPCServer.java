@@ -48,19 +48,34 @@ public class RPCServer {
 		   // - invoke the method
 		   // - send back the message containing RPC reply
 		   requestmsg=connection.receive();
-		   rpcid=requestmsg.getData()[0];
-		   if(rpcid == services.hashCode()) {
+		   byte[] bytes=requestmsg.getData();
+		   if (bytes.length > 0) {
+			   rpcid = bytes[0];
+		   
+		 /*  if(rpcid == services.hashCode()) {
 			   rpcstop.invoke(requestmsg.getData());
 			   replymsg =requestmsg;
 			   connection.send(replymsg);
 			   stop = true;
 		   }
+		   */
+		   RPCRemoteImpl find=services.get(rpcid);
+		   byte[] answers = find.invoke(RPCUtils.decapsulate(bytes));
+		   byte [] result=RPCUtils.encapsulate(rpcid, answers);
+		   
+		   Message response = new Message(result);
+		   
+		   connection.send(response);
+		   }
+		   else {System.out.println("Error: byte has length of 0");
+			   {
+		   }
+		   }
+		   
 		   
 		   
 			
-		   if (true)
-				throw new UnsupportedOperationException(TODO.method());
-		   
+	
 		   // TODO - END
 
 			// stop the server if it was stop methods that was called
