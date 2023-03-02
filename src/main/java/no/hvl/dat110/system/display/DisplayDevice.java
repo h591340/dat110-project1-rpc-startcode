@@ -17,12 +17,14 @@ public class DisplayDevice {
 		RPCServer displayserver = new RPCServer(Common.DISPLAYPORT);
 		
 		DisplayImpl display = new DisplayImpl((byte)2, displayserver);
+		displayserver.register((byte) 1, display);
 		
 		displayserver.run();
 				
+		displayserver.stop();
 		
-		if (true)
-			throw new UnsupportedOperationException(TODO.method());
+		
+		
 		
 		// TODO - END
 		
