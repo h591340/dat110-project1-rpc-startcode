@@ -1,5 +1,7 @@
 package no.hvl.dat110.rpc;
 
+import java.io.IOException;
+
 import no.hvl.dat110.TODO;
 import no.hvl.dat110.messaging.*;
 
@@ -20,25 +22,45 @@ public class RPCClient {
 		
 		// TODO - START
 		// connect using the RPC client
-		connection=msgclient.connect();
+		
+		
+			try {
+				connection=msgclient.connect();
+			}
+			catch(Exception e) {
+				System.out.println("Something wrong happens"+e);
+			}
+		}
+	
+      
+       
+        
+    
 	
 		
-		if (true)
-			throw new UnsupportedOperationException(TODO.method());
+		 
 		
 		// TODO - END
-	}
+	
 	
 	public void disconnect() {
 		
-		// TODO - START
-		// disconnect by closing the underlying messaging connection
-		connection.close();
-		if (true)
-			throw new UnsupportedOperationException(TODO.method());
+		// close the messaging connection
+		try {
+			if(connection != null) {
+				connection.close();
+
+			}
+
+		} catch(Exception e) {
+			System.out.println("Error occurred: " + e);
+		}
+	}
+	
+		
 		
 		// TODO - END
-	}
+	
 
 	/*
 	 Make a remote call om the method on the RPC server by sending an RPC request message and receive an RPC reply message
@@ -53,19 +75,38 @@ public class RPCClient {
 		
 		// TODO - START
 		
+		try {
+			byte[]rpcmsg=RPCUtils.encapsulate(rpcid, param);
 		
 
 		
-		Message request = new Message(param);
+			Message request = new Message(rpcmsg);
 		
 		// send the request to the server
-		connection.send(request);
+		
+			connection.send(request);
+	
+		
+		
 		
 		// receive the reply from the server
-		Message reply = connection.receive();
+			Message reply = connection.receive();
 		
 		// get the return value from the reply message
-		returnval = reply.getData();
+		
+
+			if(reply!=null)
+			{
+				returnval=RPCUtils.decapsulate(reply.getData());
+			}
+			
+		}
+		
+		
+		catch (Exception e) {
+            System.out.println("Error occurred while receiving reply: " + e.getMessage());
+		}
+		
 		
 		/*
 
@@ -75,8 +116,6 @@ public class RPCClient {
 
 		*/
 				
-		if (true)
-			throw new UnsupportedOperationException(TODO.method());
 		
 		// TODO - END
 		return returnval;
