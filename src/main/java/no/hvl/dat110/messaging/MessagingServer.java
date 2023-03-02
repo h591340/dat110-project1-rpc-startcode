@@ -39,14 +39,12 @@ public class MessagingServer {
 		}catch (IOException ex) {
 			System.out.println("TCP server: "+ex.getMessage());
 			ex.printStackTrace();
-			System.exit(1);
+			
 			
 			
 		}
 		
 
-		if (true)
-			throw new UnsupportedOperationException(TODO.method());
 		
 		// TODO - END
 		
