@@ -33,30 +33,21 @@ public class MessageConnection {
 	}
 
 	public void send(Message message) {
-
 		byte[] data;
 		
 		// TODO - START
 		// encapsulate the data contained in the Message and write to the output stream
-		try {				
+		try {	
+			data=MessageUtils.encapsulate(message);
+	        outStream.write(data);
+	        outStream.flush();
 			
-			data = message.getData();
-			outStream.write(data);
-			
-			outStream.close();
-			
-			socket.close();
-					
-		} catch (IOException ex){
-			System.out.println("TCP clint: " + ex.getMessage());
+	
+		}catch (IOException ex) {
+			System.out.println("Error sending message: "+ ex.getMessage());
 			ex.printStackTrace();
-			System.exit(1);
 		}
-		
-		if (true)
-			throw new UnsupportedOperationException(TODO.method());
 			
-		// TODO - END
 
 	}
 
@@ -67,39 +58,24 @@ public class MessageConnection {
 		
 		// TODO - START
 		// read a segment from the input stream and decapsulate data into a Message
-		int length;
+		
 		try {
-			length = inStream.readInt();
-			data =new byte[length];
-			System.out.print("TCP Receiver starting");
-			
-		    System.out.println("TCP Receiver reading");
-		    inStream.read(data);
-		    
-		    System.out.print("TCP Receiver received: ");
-		    for (byte b : data) {
-		    	System.out.print((byte) b);
-		    }
-		    
-			
-		    System.out.println();
-		    
-		    inStream.close();
-		    
-		    socket.close();
-		} catch (IOException ex) {
-			// TODO Auto-generated catch block
-			System.out.println("TCPServer: " + ex.getMessage());
-			ex.printStackTrace();
-			System.exit(1);
-			
-
+			int num=0;
+			byte[]segment=new byte[128];
+			System.out.println("reading");
+			while(num<128)
+			{
+				segment[num]=(byte)inStream.read();
+				num++;
+			}
+			System.out.println(segment[0]);
+			message=MessageUtils.decapsulate(segment);
+			System.out.println(message);
 		}
-		System.out.println("TCP Receiver stopping");
-		
-		
-		if (true)
-			throw new UnsupportedOperationException(TODO.method());
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 		
 		// TODO - END
 		
