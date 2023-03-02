@@ -11,6 +11,10 @@ public class Message {
 	public Message(byte[] data) {
 		
 		// TODO - START
+		if(data==null||data.length>127)
+		{
+			throw new IllegalArgumentException("Invalid message data");
+		}
 		this.data=data;
 		
 		// TODO - END
@@ -19,5 +23,7 @@ public class Message {
 	public byte[] getData() {
 		return this.data; 
 	}
+
+	
 
 }
